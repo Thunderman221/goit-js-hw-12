@@ -84,14 +84,33 @@ document.addEventListener('DOMContentLoaded', () => {
     incrementPage();
 
     try {
+      const previousLastItem = document.querySelector(
+        '.gallery-item:last-child'
+      );
+
       const { images } = await fetchImages();
       const currentPage = getCurrentPage();
 
       if (images.length > 0) {
         renderImages(images);
         lightbox.refresh();
-        const totalLoadedImages = currentPage * PER_PAGE;
 
+        const newImages = document.querySelectorAll('.gallery-item img');
+        const lastNewImage = newImages[newImages.length - 1];
+
+        lastNewImage.onload = () => {
+          if (previousLastItem) {
+            const newImagesStartPosition =
+              previousLastItem.nextElementSibling.getBoundingClientRect().top +
+              window.scrollY;
+            window.scrollTo({
+              top: newImagesStartPosition,
+              behavior: 'smooth',
+            });
+          }
+        };
+
+        const totalLoadedImages = currentPage * PER_PAGE;
         if (totalLoadedImages >= totalHits) {
           loadMoreButton.style.display = 'none';
           showEndOfResultsMessage();

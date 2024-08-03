@@ -156,7 +156,7 @@ body {
   aspect-ratio: 1;
   border-radius: 50%;
   border: 8px solid lightblue;
-  border-right-color: orange;
+  border-right-color: #4e75ff;
   animation: l2 1s infinite linear;
   z-index: 1000;
 }
